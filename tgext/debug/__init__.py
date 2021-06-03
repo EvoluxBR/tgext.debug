@@ -142,4 +142,7 @@ def enable_debug(app_config, debugger):
     if isinstance(app_config, ApplicationConfigurator):
         tg_hooks.register('initialized_config', Debug(app_config, debugger))
     else:
-        tg_hooks.register('startup', Debug(app_config, debugger))
+        if tg_hooks is None:
+            app_config.register_hook('startup', Debug(app_config, debugger))
+        else:
+            tg_hooks.register('startup', Debug(app_config, debugger))
